@@ -3,12 +3,15 @@ import TextField from 'material-ui/TextField';
 import {Row, Col} from 'react-flexbox-grid'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
-
+import { createSchoolAdmin } from '../../../import/service/user_service';
+import Snackbar from 'material-ui/Snackbar';
 class AdminInfoForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inValid: false
+            inValid: false,
+            hasError: false,
+            errorMsg: null
         }
     }
     submitAdmin = (event) => {
@@ -16,9 +19,24 @@ class AdminInfoForm extends Component {
         if(!this.isValid()) {
             this.setState({inValid : true});
         } else {
-            const {onNext} = this.props;
+            const schoolId = this.props.newSchoolId;
+            const email = this.refs.email.getValue();
+            const password = this.refs.password.getValue();
+            const nick_name = this.refs.nick_name.getValue();
+            createSchoolAdmin({schoolId, email, password, nick_name}, this.submitComplete)
+        }
+    }
+    submitComplete = (error, userId) => {
+        const {onClose} = this.props;
+        debugger;
+        if(!error) {
             console.log('submit admin');
-            onNext();
+            onClose();
+        } else {
+            this.setState({
+                hasError: true,
+                errorMsg: error.reason
+            });
         }
     }
     isValid = () => {
@@ -27,6 +45,11 @@ class AdminInfoForm extends Component {
         && password.getValue() && password_confirm.getValue() 
         && password.getValue() === password_confirm.getValue();
     }
+    handleRequestClose = () => {
+        this.setState({
+            hasError: false,
+        });
+      };
     renderInvalidForm() {
         const { email, nick_name, password, password_confirm } = this.refs;
         return (
@@ -73,17 +96,22 @@ class AdminInfoForm extends Component {
                     <div style={{margin: '12px 0'}}>
                         <FlatButton
                             label="后退"
-                            disabled={true}
                             style={{marginRight: 12}}
                         />
                         <RaisedButton
-                            label={'下一步'}
+                            label={'完成'}
                             type='submit'
                             primary={true}
                         />
                     </div>
                     </Col>
                 </Row>
+                <Snackbar
+                    open={this.state.hasError}
+                    message={this.state.errorMsg}
+                    autoHideDuration={2000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </form>
         )
     }
@@ -122,6 +150,12 @@ class AdminInfoForm extends Component {
                     </div>
                     </Col>
                 </Row>
+                <Snackbar
+                    open={this.state.hasError}
+                    message={this.state.errorMsg}
+                    autoHideDuration={2000}
+                    onRequestClose={this.handleRequestClose}
+                />
             </form>
         )
     }

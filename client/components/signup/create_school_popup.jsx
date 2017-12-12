@@ -25,10 +25,13 @@ export default class CreateSchoolPopUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          stepIndex: 0
+          stepIndex: 0,
+          newSchoolId: null
         }
     }
-
+    cacheNewSchoolId = (newSchoolId) => {
+      this.setState({newSchoolId});
+    }
     nextStep = () => {
         this.setState({
           stepIndex: this.state.stepIndex + 1
@@ -43,9 +46,9 @@ export default class CreateSchoolPopUp extends Component {
         const onClose = this.props.onClose;
         switch (step) {
           case 0:
-            return <AdminInfoForm onNext={this.nextStep}/>
+            return <SchoolInfoForm onNext={this.nextStep} onCreateSchool={this.cacheNewSchoolId}/>
           case 1:
-            return <SchoolInfoForm onPrevious={this.previousStep} onClose={onClose} />
+            return <AdminInfoForm onPrevious={this.previousStep} onClose={onClose} newSchoolId={this.state.newSchoolId}/>
           default:
             return <div></div>
         }
@@ -71,7 +74,7 @@ export default class CreateSchoolPopUp extends Component {
     render() {
         const {isOpen, onClose} = this.props;
         return (
-            <Modal isOpen={isOpen}> 
+            <Modal isOpen={isOpen} ariaHideApp={false}> 
               <IconButton onClick={onClose}><Clear /></IconButton>
               {this.renderSteppers()}
             </Modal>
