@@ -10,6 +10,10 @@ class AdminInfoForm extends Component {
         super(props);
         this.state = {
             inValid: false,
+            email: null,
+            password: null,
+            password_confirm: null,
+            nick_name: null,
             hasError: false,
             errorMsg: null
         }
@@ -20,15 +24,32 @@ class AdminInfoForm extends Component {
             this.setState({inValid : true});
         } else {
             const schoolId = this.props.newSchoolId;
-            const email = this.refs.email.getValue();
-            const password = this.refs.password.getValue();
-            const nick_name = this.refs.nick_name.getValue();
+            const {email, password, nick_name} = this.state;
             createSchoolAdmin({schoolId, email, password, nick_name}, this.submitComplete)
         }
     }
+    onEmailChange = (e) => {
+        this.setState({
+            email: e.target.value
+        })
+    }
+    onNickNameChange = (e) => {
+        this.setState({
+            nick_name: e.target.value
+        })
+    }
+    onPasswordChange = (e) => {
+        this.setState({
+            password: e.target.value
+        })
+    }
+    onPasswordConfirmChange = (e) => {
+        this.setState({
+            password_confirm: e.target.value
+        })
+    }
     submitComplete = (error, userId) => {
         const {onClose} = this.props;
-        debugger;
         if(!error) {
             console.log('submit admin');
             onClose();
@@ -40,54 +61,54 @@ class AdminInfoForm extends Component {
         }
     }
     isValid = () => {
-        const { email, nick_name, password, password_confirm } = this.refs;
-        return email.getValue() && nick_name.getValue()
-        && password.getValue() && password_confirm.getValue() 
-        && password.getValue() === password_confirm.getValue();
+        const { email, nick_name, password, password_confirm } = this.state;
+        return email && nick_name
+        && password && password_confirm 
+        && password === password_confirm;
     }
     handleRequestClose = () => {
         this.setState({
             hasError: false,
         });
-      };
-    renderInvalidForm() {
-        const { email, nick_name, password, password_confirm } = this.refs;
+    };
+    render() {
+        const { email, nick_name, password, password_confirm, inValid } = this.state;
         return (
             <form onSubmit={this.submitAdmin.bind(this)}>
                 <Row>
                     <Col xs={12} md={6}>
                         {
-                            email.getValue() ? 
-                            <TextField ref="email" floatingLabelText="邮箱" fullWidth={true}/> :
-                            <TextField ref="email" floatingLabelText="邮箱" errorText="邮箱必须填写" fullWidth={true}/>
+                            email || !inValid ?
+                            <TextField onChange={this.onEmailChange} floatingLabelText="邮箱" fullWidth={true}/> :
+                            <TextField onChange={this.onEmailChange} floatingLabelText="邮箱" errorText="邮箱必须填写" fullWidth={true}/>
                         }
                         
                     </Col>
                     <Col xs={12} md={6}>
                         {
-                            nick_name.getValue() ?
-                            <TextField ref="nick_name" floatingLabelText="昵称" fullWidth={true}/> :
-                            <TextField ref="nick_name" floatingLabelText="昵称" errorText="昵称必须填写" fullWidth={true}/>
+                            nick_name || !inValid ?
+                            <TextField onChange={this.onNickNameChange} floatingLabelText="昵称" fullWidth={true}/> :
+                            <TextField onChange={this.onNickNameChange} floatingLabelText="昵称" errorText="昵称必须填写" fullWidth={true}/>
                         }
                     </Col>
                 </Row>
                 <Row>
                     <Col xs={12} md={6}>
                         {
-                            password.getValue() ?
-                                password_confirm.getValue() === password.getValue() ? 
-                                    <TextField ref="password" floatingLabelText="密码" fullWidth={true}/> :
-                                    <TextField ref="password" floatingLabelText="密码" errorText="密码输入不一致" fullWidth={true}/>
-                            :<TextField ref="password" floatingLabelText="密码" errorText="密码必须填写" fullWidth={true}/>
+                            password || !inValid ?
+                                password_confirm === password ? 
+                                    <TextField onChange={this.onPasswordChange} floatingLabelText="密码" fullWidth={true}/> :
+                                    <TextField onChange={this.onPasswordChange} floatingLabelText="密码" errorText="密码输入不一致" fullWidth={true}/>
+                            :<TextField onChange={this.onPasswordChange} floatingLabelText="密码" errorText="密码必须填写" fullWidth={true}/>
                         }
                     </Col>
                     <Col xs={12} md={6}>
                         {
-                            password_confirm.getValue() ?
-                                password_confirm.getValue() === password.getValue() ? 
-                                    <TextField ref="password_confirm" floatingLabelText="密码确认" fullWidth={true}/> :
-                                    <TextField ref="password_confirm" floatingLabelText="密码确认" errorText="密码输入不一致" fullWidth={true}/>
-                            :<TextField ref="password_confirm" floatingLabelText="密码确认" errorText="密码确认必须填写" fullWidth={true}/>
+                            password_confirm  || !inValid ?
+                                password_confirm === password ? 
+                                    <TextField onChange={this.onPasswordConfirmChange} floatingLabelText="密码确认" fullWidth={true}/> :
+                                    <TextField onChange={this.onPasswordConfirmChange} floatingLabelText="密码确认" errorText="密码输入不一致" fullWidth={true}/>
+                            :<TextField onChange={this.onPasswordConfirmChange} floatingLabelText="密码确认" errorText="密码确认必须填写" fullWidth={true}/>
                         }
                     </Col>
                 </Row>
@@ -96,6 +117,7 @@ class AdminInfoForm extends Component {
                     <div style={{margin: '12px 0'}}>
                         <FlatButton
                             label="后退"
+                            disabled={true}
                             style={{marginRight: 12}}
                         />
                         <RaisedButton
@@ -114,53 +136,6 @@ class AdminInfoForm extends Component {
                 />
             </form>
         )
-    }
-    renderNormalForm() {
-        return (
-            <form onSubmit={this.submitAdmin}>
-                <Row>
-                    <Col xs={12} md={6}>
-                        <TextField ref="email" floatingLabelText="邮箱" fullWidth={true}/>
-                    </Col>
-                    <Col xs={12} md={6}>
-                        <TextField ref="nick_name" floatingLabelText="昵称" fullWidth={true}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12} md={6}>
-                        <TextField ref="password" floatingLabelText="密码" fullWidth={true}/>
-                    </Col>
-                    <Col xs={12} md={6}>
-                        <TextField ref="password_confirm" floatingLabelText="密码确认" fullWidth={true}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={12}>
-                    <div style={{margin: '12px 0'}}>
-                        <FlatButton
-                            label="后退"
-                            disabled={true}
-                            style={{marginRight: 12}}
-                        />
-                        <RaisedButton
-                            label={'下一步'}
-                            type='submit'
-                            primary={true}
-                        />
-                    </div>
-                    </Col>
-                </Row>
-                <Snackbar
-                    open={this.state.hasError}
-                    message={this.state.errorMsg}
-                    autoHideDuration={2000}
-                    onRequestClose={this.handleRequestClose}
-                />
-            </form>
-        )
-    }
-    render() {
-        return this.state.inValid ? this.renderInvalidForm() : this.renderNormalForm();
     }
 }
 
