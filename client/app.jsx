@@ -5,6 +5,7 @@ import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import SignInPageContainer from './components/signup/signin_page_container';
 import IndexPage from './components/index_page';
+import AdminApp from './components/admin/admin_app';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -14,7 +15,8 @@ const renderRoutes = () => (
     <Router history={browserHistory}>
       <div>
         <Route exact path="/" component={IndexPage}/>
-        <Route path="/signin" component={SignInPageContainer}/>
+        <Route path="/index/signin" component={SignInPageContainer}/>
+        <Route path="/:city-:schoolName" component={AdminApp } />
       </div>
     </Router>
   </MuiThemeProvider>

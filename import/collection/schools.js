@@ -30,7 +30,10 @@ Meteor.methods({
 	      $set: { ...school },
 	    });
 		}
-	}
+    },
+    'schools.findById': function(schoolId) {
+        return Schools.findOne({_id: schoolId});
+    }
 });
 
 

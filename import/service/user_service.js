@@ -21,3 +21,22 @@ export function createSchoolAdmin({email, password, schoolId}, callback) {
         }
     });
 }
+
+export function loginUser({email, password}, callback) {
+    Meteor.loginWithPassword(email, password, function(error) {
+        if(error) {
+            console.error('email or password are wrong');
+            callback(error);
+        } else {
+            Meteor.subscribe("currentUser", function() {
+                const user = Meteor.user();
+                Meteor.call('schools.findById', user.schoolId, function(error, school) {
+                    if(callback) {
+                        callback(error, school);
+                    }
+                });
+               
+            })
+        }
+    })
+}
