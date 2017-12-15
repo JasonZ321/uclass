@@ -1,22 +1,34 @@
 import React, { Component } from 'react';
-import {getCityAndSchoolNameByUrl} from '../../../import/utils/common_util';
-import {withRouter} from 'react-router-dom';
+import Navigator from '../navigation/navigator';
+import {Route, BrowserRouter as Router, Switch} from 'react-router-dom';
+import AdminClassListContainer from './classes/admin_class_list_container';
+import AdminTeacherListContainer from './teachers/admin_teacher_list_container';
+import AdminStudentListContainer from './students/admin_student_list_container';
+
 export default class AdminApp extends Component {
     constructor(props) {
         super(props);
     }
-    signOut = (history) => {
-        Meteor.logout(function() {
-			console.log('Logged out');
-			history.push('/');
-		});
-    }
     render() {
-        const url = this.props.location.pathname;
-        const cityAndName = getCityAndSchoolNameByUrl(url);
-        const SignOutButton = withRouter(({history}) => (
-            <button className="btn btn-primary mt-2 float-right" onClick={() => this.signOut(history)}>退出</button>
-        ));
-        return <div>Admin app{cityAndName[1]}<br /><SignOutButton /></div>;
+        const {fullname} = this.props.match.params;
+        const classUrl = `/admin/${fullname}/classes`;
+        const studentUrl = `/admin/${fullname}/students`;
+        const teacherUrl = `/admin/${fullname}/teachers`;
+        return (
+            <Router>
+                <div className="row">
+                    <Navigator fullname={fullname} routes={{classUrl, studentUrl, teacherUrl}} />
+                    <div className="bg-light col-lg-10">
+                        <Switch>
+                            <Route path={classUrl}  component={AdminClassListContainer}/>
+                            <Route path={studentUrl}  component={AdminStudentListContainer}/>
+                            <Route path={teacherUrl}  component={AdminTeacherListContainer}/>
+                            <Route render={() => <div>Not found</div>} />
+                        </Switch>
+                    </div>
+                </div>
+            </Router>
+        )
+
     }
 }

@@ -7,7 +7,11 @@ export function getIdByURL(url, prefix) {
     }
 }
 
-export function getCityAndSchoolNameByUrl(url) {
-    let cityAndName = url.substr(url.indexOf('/') + 1);
-    return cityAndName.split('-');
+export function getCityAndSchoolNameByUrl(url, prefix) {
+    let cityAndName = url.substr(url.lastIndexOf(prefix)+prefix.length);
+    if (cityAndName.indexOf('/') < 0) {
+        return cityAndName.split('-');
+    } else {
+        return cityAndName.substr(0, cityAndName.lastIndexOf('/')).split('-');
+    }
 }

@@ -40,7 +40,7 @@ export default class SignInPage extends Component {
                 alert('wrong login');
             } else {
                 const {name, city} = school;
-                const url = `/${city}-${name}`;
+                const url = `/admin/${city}-${name}`;
                 //TODO use react-router to redirect
                 history.push(url);
             }
