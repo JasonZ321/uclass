@@ -14,7 +14,6 @@ export default class Navigator extends Component {
             <a onClick={() => this.signOut(history)}>退出</a>
         ));
         const {courseUrl, studentUrl, teacherUrl} = this.props.routes;
-        debugger
         return (
             <div className="bg-dark col-lg-2" style={{'height':'100vh'}} >
                 <h2 className="text-white">Beta学堂</h2><SignOutButton />
