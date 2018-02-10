@@ -3,7 +3,6 @@ import { Images } from '../collection/images';
 
 export function uploadImage(file, afterUploadCallback) {
     Images.insert(file, function(err, fileObj){
-        debugger
         if (err) {
             console.log(err);
         } else {

@@ -10,7 +10,6 @@ export default class AdminApp extends Component {
         super(props);
     }
     render() {
-        debugger
         const courseUrl = `/admin/courses`;
         const studentUrl = `/admin/students`;
         const teacherUrl = `/admin/teachers`;
