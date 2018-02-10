@@ -13,3 +13,28 @@ export function createCourse(course, callback) {
         }
     });
 }
+
+export function createCategory(category, callback) {
+    Meteor.call('categories.insert', category, function(error, result) {
+        if(error) {
+            console.log('error when creating category', error);
+        }
+        if(result) {
+            console.log('Category %s created', result)
+        }
+        if(callback) {
+            callback(error, result);
+        }
+    })
+}
+
+export function getAllCategories(callback) {
+    Meteor.call('categories.findAll', function(error, result) {
+        if(error) {
+            console.log('error when finding categories ', error);
+        }
+        if(callback) {
+            callback(error, result);
+        }
+    })
+}

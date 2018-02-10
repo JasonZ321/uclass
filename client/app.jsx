@@ -13,7 +13,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const requireAuth = (nextState, replace) => {
-  debugger;
   if(!Meteor.user()) {
     replace({
       pathname:'/index/signin'
