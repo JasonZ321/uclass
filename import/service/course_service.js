@@ -1,4 +1,5 @@
 import {Meteor} from 'meteor/meteor';
+import {Courses} from '../../import/collection/courses';
 
 export function createCourse(course, callback) {
     Meteor.call('courses.insert', course, function(error, result) {
@@ -26,6 +27,10 @@ export function createCategory(category, callback) {
             callback(error, result);
         }
     })
+}
+
+export function getAllCourses() {
+    return Courses.find({}).fetch();
 }
 
 export function getAllCategories(callback) {
