@@ -35,6 +35,7 @@ Meteor.methods({
 
 export const Categories = new Mongo.Collection('categories');
 Categories.schema = new SimpleSchema({
-	name: {type: String},
+    name: {type: String},
+    schoolId:{type:String},
 	createdAt: {type: Date}
 });

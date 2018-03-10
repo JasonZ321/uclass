@@ -34,9 +34,12 @@ export function loginUser({email, password}, callback) {
                     if(callback) {
                         callback(error, school);
                     }
-                });
-               
+                });  
             })
         }
     })
+}
+
+export function getCurrentUser() {
+    return Meteor.users.findOne({_id: Meteor.userId()});
 }

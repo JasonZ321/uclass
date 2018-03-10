@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import AutoComplete from 'material-ui/AutoComplete';
-import {getAllCategories} from '../../../../import/service/course_service';
+import TextField from 'material-ui/TextField'
 
 const CourseCategoryAutoCompleteField = ({categories, onChange}) => {
-    const data = categories.map(category => category.name);
+    const data = categories ? categories.map(category => category.name) : [];
     return <div>
             <AutoComplete
                 floatingLabelText="分类"
@@ -12,7 +12,7 @@ const CourseCategoryAutoCompleteField = ({categories, onChange}) => {
                 dataSource={data}
                 onUpdateInput={onChange}
             />
-        </div>  
+        </div>
 }
 
 export default CourseCategoryAutoCompleteField;

@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField'
 import {Row, Col} from 'react-flexbox-grid'
 import FlatButton from 'material-ui/FlatButton'
 import CourseCategoryAutoCompleteField from './course_category_auto_complete_field'
-import {getAllCategories, createCategory} from '../../../../import/service/course_service';
+import {createCategory} from '../../../../import/service/course_service';
 import {uploadImage} from '../../../../import/service/image_service';
 import {createCourse} from '../../../../import/service/course_service';
 
@@ -20,20 +20,13 @@ export default class CreateNewCoursePopup extends Component {
             avatarURL: null,
             courseName: null,
             courseCategory: null,
-            courseDiscription: null,
-            categories:[]
+            courseDiscription: null
         }
         this.onCourseNameChange = this.onCourseNameChange.bind(this);
         this.onCourseCategoryChange = this.onCourseCategoryChange.bind(this);
         this.onCourseDiscriptionChange = this.onCourseDiscriptionChange.bind(this);
         this.onSubmitCourse = this.onSubmitCourse.bind(this);
         this.onFinishSubmitCourse = this.onFinishSubmitCourse.bind(this);
-    }
-    componentWillMount() {
-        let component = this;
-        getAllCategories(function(error, result) {
-            component.setState({categories: result});
-        });
     }
     onUploadCourseAvatar(acceptedFiles) {
         acceptedFiles.forEach(file => {
@@ -55,10 +48,11 @@ export default class CreateNewCoursePopup extends Component {
         this.setState({courseDiscription:e.target.value})
     }
     onSubmitCourse() {
+        const {schoolId} = this.props;
         const categoryId = this.getCategoryByName(this.state.courseCategory);
         if(!categoryId) {
             let component = this;
-           createCategory({name: this.state.courseCategory}, function(error, result) {
+           createCategory({name: this.state.courseCategory, schoolId:schoolId}, function(error, result) {
                if(result) {
                    component.createCourseWithCategory(result);
                }
@@ -71,17 +65,21 @@ export default class CreateNewCoursePopup extends Component {
         const course = {
             avatarURL: this.state.avatarURL,
             name: this.state.courseName,
-            category: categoryId,
+            categoryId: categoryId,
+            schoolId: this.props.schoolId,
             description: this.state.courseDiscription
         }
         createCourse(course, this.onFinishSubmitCourse);
     }
     getCategoryByName(categoryName) {
-        this.state.categories.forEach(category => {
-            if(category.name === categoryName) {
-                return category._id;
-            }
-        });
+        const {categories} = this.props;
+        if(categories) {
+            categories.forEach(category => {
+                if(category.name === categoryName) {
+                    return category._id;
+                }
+            });
+        }
     }
     onFinishSubmitCourse(error, result) {
         if(result) {
@@ -89,7 +87,7 @@ export default class CreateNewCoursePopup extends Component {
         }
     }
     render() {
-        const {isOpen, onClose} = this.props;
+        const {isOpen, onClose, categories} = this.props;
 
         return <Modal isOpen={isOpen} ariaHideApp={false}> 
                     <IconButton onClick={onClose}><Clear /></IconButton>
@@ -106,7 +104,7 @@ export default class CreateNewCoursePopup extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <CourseCategoryAutoCompleteField onChange={this.onCourseCategoryChange} categories={this.state.categories}/>
+                            <CourseCategoryAutoCompleteField onChange={this.onCourseCategoryChange} categories={categories}/>
                         </Col>
                     </Row>
                     <Row>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import FlatButton from 'material-ui/FlatButton'
-import CreateNewCoursePopup from './create_new_course_popup';
+import CreateNewCoursePopupContainer from './create_new_course_popup_container';
 import AdminCourseListContainer from './admin_course_list_container';
 
 export default class AdminCoursePage extends Component {
@@ -24,11 +24,12 @@ export default class AdminCoursePage extends Component {
     }
     render() {
         const {createCourseOpen} = this.state;
+        const schoolId = this.props.currentUser ? this.props.currentUser.schoolId : null;
         return <div>
             <div>
                 <FlatButton label="添加新课程" primary={true} onClick={this.onCreateNewCourse}/>
-                <CreateNewCoursePopup isOpen={createCourseOpen} onClose={this.closeCreateCoursePopup}   />
-                <AdminCourseListContainer /> 
+                <CreateNewCoursePopupContainer isOpen={createCourseOpen} onClose={this.closeCreateCoursePopup} schoolId={schoolId}  />
+                <AdminCourseListContainer schoolId={schoolId}/> 
             </div>
             <div></div>
         </div>

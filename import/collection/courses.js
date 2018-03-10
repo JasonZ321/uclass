@@ -34,7 +34,8 @@ export const Courses = new Mongo.Collection('courses');
 Courses.schema = new SimpleSchema({
     avatarURL:{type: String},
 	name: {type: String},
-	category: {type: String},
-	description: {type: String},
+	categoryId: {type: String},
+    description: {type: String},
+    schoolId:{type: String},
 	createdAt: {type: Date}
 });

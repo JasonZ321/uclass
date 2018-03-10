@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import {Courses} from '../../import/collection/courses';
+import { Categories } from '../collection/categories';
 
 export function createCourse(course, callback) {
     Meteor.call('courses.insert', course, function(error, result) {
@@ -29,17 +30,10 @@ export function createCategory(category, callback) {
     })
 }
 
-export function getAllCourses() {
-    return Courses.find({}).fetch();
+export function getCourses(schoolId) {
+    return Courses.find({schoolId: schoolId}).fetch();
 }
 
-export function getAllCategories(callback) {
-    Meteor.call('categories.findAll', function(error, result) {
-        if(error) {
-            console.log('error when finding categories ', error);
-        }
-        if(callback) {
-            callback(error, result);
-        }
-    })
+export function getCategories(schoolId) {
+    return Categories.find({}).fetch();
 }
