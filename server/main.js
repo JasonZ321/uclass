@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import {Schools} from '../import/collection/schools';
 import {Courses} from '../import/collection/courses';
 import { Images } from '../import/collection/images';
+import { Categories } from '../import/collection/categories';
 
 function setUpImageServer() {
   Images.allow({
@@ -30,6 +31,9 @@ Meteor.startup(() => {
   });
   Meteor.publish('courses', function(schoolId) {
     return Courses.find({schoolId: schoolId});
+  });
+  Meteor.publish('categories', function(schoolId) {
+    return Categories.find({schoolId: schoolId});
   })
   // code to run on server at startup
   Accounts.onCreateUser(function(options, user) {

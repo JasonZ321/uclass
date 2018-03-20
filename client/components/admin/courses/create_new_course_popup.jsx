@@ -50,6 +50,7 @@ export default class CreateNewCoursePopup extends Component {
     onSubmitCourse() {
         const {schoolId} = this.props;
         const categoryId = this.getCategoryByName(this.state.courseCategory);
+        debugger;
         if(!categoryId) {
             let component = this;
            createCategory({name: this.state.courseCategory, schoolId:schoolId}, function(error, result) {
@@ -74,11 +75,11 @@ export default class CreateNewCoursePopup extends Component {
     getCategoryByName(categoryName) {
         const {categories} = this.props;
         if(categories) {
-            categories.forEach(category => {
-                if(category.name === categoryName) {
-                    return category._id;
+            for(let i = 0; i<categories.length; i++) {
+                if(categories[i].name.toUpperCase() === categoryName.toUpperCase()) {
+                    return categories[i]._id;
                 }
-            });
+            }
         }
     }
     onFinishSubmitCourse(error, result) {

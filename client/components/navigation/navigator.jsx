@@ -13,7 +13,7 @@ export default class Navigator extends Component {
         const SignOutButton = withRouter(({history}) => (
             <a onClick={() => this.signOut(history)}>退出</a>
         ));
-        const {courseUrl, studentUrl, teacherUrl} = this.props.routes;
+        const {courseUrl, studentUrl, teacherUrl, classUrl} = this.props.routes;
         return (
             <div className="bg-dark col-lg-2" style={{'height':'100vh'}} >
                 <h2 className="text-white">Beta学堂</h2><SignOutButton />
@@ -23,13 +23,16 @@ export default class Navigator extends Component {
                         <a className="nav-link active" >首页</a>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to={courseUrl}>课程</Link>
+                        <Link className="nav-link" to={courseUrl}>课程介绍</Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to={teacherUrl}>教师</Link>
+                        <Link className="nav-link" to={teacherUrl}>教师介绍</Link>
                         </li>
                         <li className="nav-item">
-                        <Link className="nav-link" to={studentUrl}>学生</Link>
+                        <Link className="nav-link" to={classUrl}>课时管理</Link>
+                        </li>
+                        <li className="nav-item">
+                        <Link className="nav-link" to={studentUrl}>学生档案</Link>
                         </li>
                     </ul>
                 </nav>

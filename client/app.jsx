@@ -9,6 +9,7 @@ import AdminApp from './components/admin/admin_app';
 import AdminCoursePageContainer from './components/admin/courses/admin_course_page_container';
 import AdminStudentPageContainer from './components/admin/students/admin_student_page_container';
 import AdminTeacherPageContainer from './components/admin/teachers/admin_teacher_page_container';
+import AdminClassPageContainer from './components/admin/classes/admin_class_page_container';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -30,6 +31,7 @@ const renderRoutes = () => (
           <Route path="/admin/courses" component={AdminCoursePageContainer}/>
           <Route path="/admin/students" component={AdminStudentPageContainer}/>
           <Route path="/admin/teachers" component={AdminTeacherPageContainer}/>
+          <Route path="/admin/classes" component={AdminClassPageContainer}/>
         </Route>
       </div>
     </Router>
