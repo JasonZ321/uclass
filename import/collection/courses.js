@@ -11,7 +11,8 @@ Meteor.methods({
 		return Courses.insert(data);
 	},
 	'courses.remove': function(course) {
-		if (course.admin === this.userId) {
+		const user = Meteor.user();
+		if (user.isAdmin) {
 			Courses.remove(course);
 		} else {
 			console.error('User has no permission to remove course {}', course.name);

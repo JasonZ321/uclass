@@ -50,7 +50,6 @@ export default class CreateNewCoursePopup extends Component {
     onSubmitCourse() {
         const {schoolId} = this.props;
         const categoryId = this.getCategoryByName(this.state.courseCategory);
-        debugger;
         if(!categoryId) {
             let component = this;
            createCategory({name: this.state.courseCategory, schoolId:schoolId}, function(error, result) {

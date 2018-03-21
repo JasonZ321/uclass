@@ -1,6 +1,7 @@
-import React from 'react';
-import {GridList, GridTile} from 'material-ui/GridList';
+import React, {Component} from 'react';
+import {GridList, GridTile} from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton';
+import AdminCourseListCell from './admin_course_list_cell';
 
 
 const styles = {
@@ -12,23 +13,19 @@ const styles = {
     gridList: {
       display: 'flex',
       flexWrap: 'nowrap',
-      overflowX: 'auto',
     }
   };
-
 const AdminCourseList = ({courses}) => {
-    return <div>
+        return <div>
         <h3>所有课程</h3>
-        <div style={styles.root}>
-            <GridList style={styles.gridList} cols={2.2}>
+        <div>
+            <GridList style={styles.gridList}>
                 {courses.map((course) => (
-                    <GridTile
+                    <AdminCourseListCell
                         key={course._id}
-                        title={course.name}
-                        titleBackground="linear-gradient(to top, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-                    >
-                    <img src={course.avatarURL} />
-                    </GridTile>
+                        course={course}>
+                        onDeleteCourse={this.onDeleteCourse}
+                    </AdminCourseListCell>
                 ))}
             </GridList>
         </div>

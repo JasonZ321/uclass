@@ -30,6 +30,20 @@ export function createCategory(category, callback) {
     })
 }
 
+export function deleteCourse(course, callback) {
+    Meteor.call('courses.remove', course, function(error, result) {
+        if(error) {
+            console.log('error when deleting course', error);
+        }
+        if(result) {
+            console.log('Course %s deleted', result)
+        }
+        if(callback) {
+            callback(error, result);
+        }
+    })
+}
+
 export function getCourses(schoolId) {
     return Courses.find({schoolId: schoolId}).fetch();
 }
