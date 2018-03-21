@@ -51,9 +51,7 @@ const AdminCourseList = ({courses, categories}) => {
                                     {courses.map((course) => (
                                         <AdminCourseListCell
                                             key={course._id}
-                                            course={course}>
-                                            onDeleteCourse={this.onDeleteCourse}
-                                        </AdminCourseListCell>
+                                            course={course} />
                                     ))}
                                 </GridList>
                         </div>

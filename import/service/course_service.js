@@ -49,5 +49,5 @@ export function getCourses(schoolId) {
 }
 
 export function getCategories(schoolId) {
-    return Categories.find({}).fetch();
+    return Categories.find({schoolId: schoolId}).fetch();
 }
